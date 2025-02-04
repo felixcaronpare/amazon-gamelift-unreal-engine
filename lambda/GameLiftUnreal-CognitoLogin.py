@@ -13,6 +13,7 @@ import base64
 # i.e. USER_POOL_APP_CLIENT_ID = os.environ['USER_POOL_APP_CLIENT_ID'] and USER_POOL_APP_CLIENT_SECRET = os.environ['USER_POOL_APP_CLIENT_SECRET']
 # (See https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html for info on programmatically defining environment variables in Lambda.)
 USER_POOL_APP_CLIENT_ID = ''
+USER_POOL_APP_CLIENT_SECRET = ''
 
 client = boto3.client('cognito-idp')
 
@@ -44,12 +45,14 @@ def lambda_handler(event, context):
 
 def initiate_auth(username, password):
     try:
+        secret_hash = get_secret_hash(username, USER_POOL_APP_CLIENT_ID, USER_POOL_APP_CLIENT_SECRET)
         resp = client.initiate_auth(
             ClientId=USER_POOL_APP_CLIENT_ID,
             AuthFlow='USER_PASSWORD_AUTH',
             AuthParameters={
                 'USERNAME': username,
-                'PASSWORD': password
+                'PASSWORD': password,
+                'SECRET_HASH': secret_hash
             })
     except client.exceptions.InvalidParameterException as e:
         return None, "Username and password must not be empty"
