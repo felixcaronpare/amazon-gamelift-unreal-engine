@@ -5,12 +5,25 @@ import boto3
 import os
 import sys
 
+import hmac
+import hashlib
+import base64
+
 # TODO Set to your created app client id. For testing purposes, it is possible to use a hardcoded string here, but please consider using an environment variable.
 # i.e. USER_POOL_APP_CLIENT_ID = os.environ['USER_POOL_APP_CLIENT_ID']
 # (See https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html for info on programmatically defining environment variables in Lambda.)
 USER_POOL_APP_CLIENT_ID = ''
 
 client = boto3.client('cognito-idp')
+
+def get_secret_hash(username, client_id, client_secret):
+    message = username + client_id
+    dig = hmac.new(
+        str(client_secret).encode('utf-8'),
+        msg=message.encode('utf-8'),
+        digestmod=hashlib.sha256
+    ).digest()
+    return base64.b64encode(dig).decode()
 
 def lambda_handler(event, context):
     if 'username' not in event or 'password' not in event:
