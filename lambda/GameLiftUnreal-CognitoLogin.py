@@ -4,7 +4,6 @@
 import boto3
 import os
 import sys
-
 import hmac
 import hashlib
 import base64
