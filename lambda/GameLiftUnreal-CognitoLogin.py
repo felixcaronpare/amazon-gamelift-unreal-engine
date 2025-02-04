@@ -9,8 +9,8 @@ import hmac
 import hashlib
 import base64
 
-# TODO Set to your created app client id. For testing purposes, it is possible to use a hardcoded string here, but please consider using an environment variable.
-# i.e. USER_POOL_APP_CLIENT_ID = os.environ['USER_POOL_APP_CLIENT_ID']
+# TODO Set to your created app client id and secret. For testing purposes, it is possible to use hardcoded strings here, but please consider using environment variables.
+# i.e. USER_POOL_APP_CLIENT_ID = os.environ['USER_POOL_APP_CLIENT_ID'] and USER_POOL_APP_CLIENT_SECRET = os.environ['USER_POOL_APP_CLIENT_SECRET']
 # (See https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html for info on programmatically defining environment variables in Lambda.)
 USER_POOL_APP_CLIENT_ID = ''
 
